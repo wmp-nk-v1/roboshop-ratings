@@ -1,0 +1,17 @@
+name: CI DB Main - RoboShop Ratings
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'db/**'
+      - '.github/workflows/ci-db-main.yml'
+  workflow_dispatch:
+
+jobs:
+  docker-build-db:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and push DB image
+        run: make docker-build-db
