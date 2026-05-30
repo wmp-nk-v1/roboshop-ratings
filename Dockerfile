@@ -10,4 +10,7 @@ COPY --from=builder /deps /app/deps
 ENV PYTHONPATH=/app/deps
 COPY app.py .
 EXPOSE 8080
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["sh", "-c", "python3.12 -m gunicorn -b 0.0.0.0:${PORT:-8080} -w 2 app:app"]
