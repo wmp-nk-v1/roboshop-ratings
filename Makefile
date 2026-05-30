@@ -27,7 +27,7 @@ argocd-deploy:
 		--path . \
 		--dest-server https://kubernetes.default.svc \
 		--dest-namespace roboshop \
-		--helm-set services.ratings.tag=$(image_tag) \
+		--helm-set image_tag=$(image_tag) \
 		--values values/roboshop-ratings.yml
 
 db-init:
