@@ -11,6 +11,22 @@ logger = logging.getLogger("ratings")
 app = Flask(__name__)
 CORS(app)
 
+import json as _json
+
+@app.before_request
+def _start_timer():
+    request._start_time = time.time()
+
+@app.after_request
+def _log_request(response):
+    logger.info(_json.dumps({
+        "method": request.method,
+        "path": request.path,
+        "status": response.status_code,
+        "latency_ms": round((time.time() - request._start_time) * 1000, 3)
+    }))
+    return response
+
 MYSQL_HOST = os.getenv("MYSQL_HOST", "mysql")
 MYSQL_USER = os.getenv("MYSQL_USER", "ratings")
 MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "RoboShop@1")
